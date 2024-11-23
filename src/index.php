@@ -1,16 +1,30 @@
 <?php
 
-function processNumbers(array $numbers, callable $callback): array
+function findValue(array $data, string $key): mixed
 {
-    // array_mapは配列の各要素に関数を適用する
-    return array_map($callback, $numbers);
+    // ?? 演算子は左のパラメータを返し、それがない場合はnullを返します
+    return $data[$key] ?? null;
 }
 
-function squareNumber(int $number): int
-{
-    return pow($number, 2);
-}
+// 使用例:
+$data = ['name' => 'John', 'age' => 30];
+echo findValue($data, 'name'); // Output: John
+echo findValue($data, 'occupation'); // Output: (何もなし、'occupation'というキーは存在しないため)
 
-$numbers = [1, 2, 3, 4];
-$squaredNumbers = processNumbers($numbers, 'squareNumber');
-print_r($squaredNumbers); // Output: Array ( [0] => 1 [1] => 4 [2] => 9 [3] => 16 )
+function calculateDiscount(?string $subscriptionLevel): int
+{
+    $discounts = [
+        'silver' => 10,
+        'gold' => 20,
+        'platinum' => 30,
+    ];
+
+    // maybe {type}
+    // $discounts配列内にサブスクリプションレベルが存在するか確認します
+    if ($subscriptionLevel !== null && isset($discounts[$subscriptionLevel])) {
+        return $discounts[$subscriptionLevel];
+    } else {
+        // サブスクリプションレベルが認識されない場合はデフォルトの割引値を返します
+        return 5;
+    }
+}
