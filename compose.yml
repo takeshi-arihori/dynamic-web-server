@@ -1,11 +1,47 @@
 services:
-  nginx:
+  cars-product:
     image: nginx:1.25.0
     ports:
       - 8821:80
     volumes:
       - ./src:/var/www/html
-      - ./docker/nginx:/etc/nginx/conf.d
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - dynamic-web-server
+
+  food-service:
+    image: nginx:1.25.0
+    ports:
+      - 8822:80
+    volumes:
+      - ./src:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - dynamic-web-server
+
+  lorel_ipsum:
+    image: nginx:1.25.0
+    ports:
+      - 8823:80
+    volumes:
+      - ./src:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - dynamic-web-server
+
+  plant-uml:
+    image: nginx:1.25.0
+    ports:
+      - 8824:80
+    volumes:
+      - ./src:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - app
     networks:
