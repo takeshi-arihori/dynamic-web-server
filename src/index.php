@@ -21,18 +21,60 @@ class ElectricEngine implements Engine
     }
 }
 
-// ポリモーフィズム
-// 異なるクラスのオブジェクトを共通の基底クラスのオブジェクトとして扱うことができます。これにより、コードの柔軟性が確保され、メソッドのオーバーライドが可能になります。
-function startEngine(Engine $engine): string
+abstract class Car
 {
-    return $engine->start();
+    protected string $make;
+    protected Engine $engine;
+
+    public function __construct(string $make, Engine $engine)
+    {
+        $this->make = $make;
+        $this->engine = $engine;
+    }
+
+    abstract public function drive(): string;
+
+    public function start(): string
+    {
+        return $this->engine->start();
+    }
 }
 
-$gasolineEngine = new GasolineEngine();
-$electricEngine = new ElectricEngine();
+// 継承
+// 継承により、クラス（サブクラス）は他のクラス（親クラス）のプロパティとメソッドを継承することができます。
 
-echo '<br>';
-echo startEngine($gasolineEngine); // Output: Starting the gasoline engine...
-echo '<br>';
-echo '<br>';
-echo startEngine($electricEngine); // Output: Starting the electric engine...
+class GasCar extends Car
+{
+    public function __construct(string $make)
+    {
+        parent::__construct($make, new GasolineEngine());
+    }
+
+    public function drive(): string
+    {
+        return "Driving the gas car...";
+    }
+}
+
+class ElectricCar extends Car
+{
+    public function __construct(string $make)
+    {
+        parent::__construct($make, new ElectricEngine());
+    }
+
+    public function drive(): string
+    {
+        return "Driving the electric car...";
+    }
+}
+
+
+$gasCar = new GasCar('Toyota');
+$electricCar = new ElectricCar('Tesla');
+
+echo $gasCar->drive(); // Output: Driving the gas car...
+echo $gasCar->start(); // Output: Starting the gasoline engine...
+
+echo $electricCar->drive(); // Output: Driving the electric car...
+echo $electricCar->start(); // Output: Starting the electric engine...
