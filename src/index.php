@@ -1,30 +1,75 @@
 <?php
+// interface Engine
+// {
+//     public function start(): string;
+// }
 
-function findValue(array $data, string $key): mixed
-{
-    // ?? 演算子は左のパラメータを返し、それがない場合はnullを返します
-    return $data[$key] ?? null;
-}
+// class GasolineEngine implements Engine
+// {
+//     public function start(): string
+//     {
+//         return "Starting the gasoline engine...";
+//     }
+// }
 
-// 使用例:
-$data = ['name' => 'John', 'age' => 30];
-echo findValue($data, 'name'); // Output: John
-echo findValue($data, 'occupation'); // Output: (何もなし、'occupation'というキーは存在しないため)
+// class ElectricEngine implements Engine
+// {
+//     public function start(): string
+//     {
+//         return "Starting the electric engine...";
+//     }
+// }
 
-function calculateDiscount(?string $subscriptionLevel): int
-{
-    $discounts = [
-        'silver' => 10,
-        'gold' => 20,
-        'platinum' => 30,
-    ];
+// abstract class Car
+// {
+//     protected string $make;
+//     protected Engine $engine;
 
-    // maybe {type}
-    // $discounts配列内にサブスクリプションレベルが存在するか確認します
-    if ($subscriptionLevel !== null && isset($discounts[$subscriptionLevel])) {
-        return $discounts[$subscriptionLevel];
-    } else {
-        // サブスクリプションレベルが認識されない場合はデフォルトの割引値を返します
-        return 5;
-    }
-}
+//     public function __construct(string $make, Engine $engine)
+//     {
+//         $this->make = $make;
+//         $this->engine = $engine;
+//     }
+
+//     abstract public function drive(): string;
+
+//     public function start(): string
+//     {
+//         return $this->engine->start();
+//     }
+// }
+
+// class GasCar extends Car
+// {
+//     public function __construct(string $make)
+//     {
+//         parent::__construct($make, new GasolineEngine());
+//     }
+
+//     public function drive(): string
+//     {
+//         return "Driving the gas car...";
+//     }
+// }
+
+// class ElectricCar extends Car
+// {
+//     public function __construct(string $make)
+//     {
+//         parent::__construct($make, new ElectricEngine());
+//     }
+
+//     public function drive(): string
+//     {
+//         return "Driving the electric car...";
+//     }
+// }
+
+// $gasCar = new GasCar('Toyota');
+// $electricCar = new ElectricCar('Tesla');
+
+// echo $gasCar->drive(); // Output: Driving the gas car...
+// echo $gasCar->start(); // Output: Starting the gasoline engine...
+
+// echo $electricCar->drive(); // Output: Driving the electric car...
+// echo $electricCar->start(); // Output: Starting the electric engine...
