@@ -1,46 +1,69 @@
 <?php
 
-class Car
+interface Engine
 {
-    private string $make;
-    private string $model;
-    private int $year;
+    public function start(): string;
+}
 
-    public function __construct(string $make, string $model, int $year)
+abstract class AbstractVehicle
+{
+    protected string $make;
+
+    public function __construct(string $make)
     {
         $this->make = $make;
-        $this->model = $model;
-        $this->year = $year;
     }
 
-    public function getMake(): string
+    abstract public function drive(): string;
+}
+
+class Car extends AbstractVehicle implements Engine
+{
+    public function __construct(string $make)
     {
-        return $this->make;
+        parent::__construct($make);
     }
 
-    public function getModel(): string
+    public function drive(): string
     {
-        return $this->model;
+        return "Driving the car...";
     }
 
-    public function getYear(): int
+    public function start(): string
     {
-        return $this->year;
+        return "Starting the cars engine...";
+    }
+}
+
+class Motorcycle extends AbstractVehicle implements Engine
+{
+    public function __construct(string $make)
+    {
+        parent::__construct($make);
     }
 
-    public function calculateAge(): int
+    public function drive(): string
     {
-        $currentYear = date('Y');
-        return $this->getAge($currentYear);
+        return "Driving the motorcycle...";
     }
 
-    public function getAge(int $currentYear): int
+    public function start(): string
     {
-        return $currentYear - $this->year;
+        return "Starting the motorcycle's engine...";
     }
 }
 
 
-$car = new Car('Toyota', 'Camry', 2022);
-echo "Car Details: " . $car->getMake() . " " . $car->getModel() . " (" . $car->getYear() . ")\n";
-echo "Car Age: " . $car->calculateAge() . " years"; // Output: Car Age: 1 years
+$car = new Car('Toyota');
+$motorcycle = new Motorcycle('Harley');
+
+
+echo $car->drive(); // Output: Driving the car...
+echo '<br>';
+echo $car->start(); // Output: Starting the car's engine...
+echo '<br>';
+echo '<br>';
+echo $motorcycle->drive(); // Output: Driving the motorcycle...
+echo '<br>';
+echo $motorcycle->start(); // Output: Starting the motorcycle's engine...
+echo '<br>';
