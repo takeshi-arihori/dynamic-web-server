@@ -1,0 +1,79 @@
+@startuml
+entity "FoodItems" {
+  *id: INT
+  --
+  *name: VARCHAR(255)
+  description: TEXT
+  *price: DECIMAL(10, 2)
+  category: VARCHAR(50)
+}
+
+entity "Persons" {
+  *id: INT
+  --
+  *name: VARCHAR(255)
+  age: INT
+  address: TEXT
+  type: VARCHAR(50)  -- 'Customer' or 'Employee'
+}
+
+entity "Employees" {
+  *id: INT
+  --
+  *person_id: INT
+  employeeId: INT
+  salary: DOUBLE
+  role: VARCHAR(50)
+}
+
+entity "Customers" {
+  *id: INT
+  --
+  *person_id: INT
+  loyalty_points: INT
+}
+
+entity "Orders" {
+  *id: INT
+  --
+  *customer_id: INT
+  order_date: DATETIME
+  status: VARCHAR(50)
+  total_price: DECIMAL(10, 2)
+}
+
+entity "OrderItems" {
+  *id: INT
+  --
+  *order_id: INT
+  *food_item_id: INT
+  quantity: INT
+  price: DECIMAL(10, 2)
+}
+
+entity "FoodOrders" {
+  *id: INT
+  --
+  *order_id: INT
+  *item_id: INT
+  order_time: TIMESTAMP
+}
+
+entity "Invoices" {
+  *id: INT
+  --
+  *order_id: INT
+  final_price: DOUBLE
+  order_time: TIMESTAMP
+  estimated_time_in_minutes: INT
+}
+
+' Relationships
+Persons ||--o{ Employees : person_id
+Persons ||--o{ Customers : person_id
+Orders ||--o{ OrderItems : customer_id
+FoodItems ||--o{ OrderItems : food_item_id
+Orders ||--o{ FoodOrders : order_id
+FoodItems ||--o{ FoodOrders : item_id
+Orders ||--o{ Invoices : order_id
+@enduml
