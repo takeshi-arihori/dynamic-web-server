@@ -2,14 +2,14 @@ services:
   nginx:
     image: nginx:1.25.0
     ports:
-      - 8001:80
+      - 8821:80
     volumes:
       - ./src:/var/www/html
       - ./docker/nginx:/etc/nginx/conf.d
     depends_on:
       - app
     networks:
-      - project_network
+      - dynamic-web-server
 
   app:
     build:
@@ -20,7 +20,7 @@ services:
     env_file:
       - .env
     networks:
-      - project_network
+      - dynamic-web-server
 
   mysql:
     image: mysql:8.0
@@ -30,30 +30,16 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
-      - restaurant-chain-mockup_mysqldata:/var/lib/mysql
+      - dynamic-webserver-db:/var/lib/mysql
       - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
     ports:
-      - 3307:3306
+      - 33061:3306
     networks:
-      - project_network
-
-  phpmyadmin:
-    image: phpmyadmin
-    restart: always
-    ports:
-      - 8081:80
-    environment:
-      PMA_HOST: mysql
-      PMA_PORT: 3306
-      PMA_ARBITRARY: 1
-    depends_on:
-      - mysql
-    networks:
-      - project_network
+      - dynamic-web-server
 
 volumes:
-  restaurant-chain-mockup_mysqldata:
+  dynamic-webserver-db:
 
 networks:
-  project_network:
+  dynamic-web-server:
     driver: bridge
