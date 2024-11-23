@@ -1,80 +1,16 @@
 <?php
 
-interface Engine
+function processNumbers(array $numbers, callable $callback): array
 {
-    public function start(): string;
+    // array_mapは配列の各要素に関数を適用する
+    return array_map($callback, $numbers);
 }
 
-class GasolineEngine implements Engine
+function squareNumber(int $number): int
 {
-    public function start(): string
-    {
-        return "Starting the gasoline engine...";
-    }
+    return pow($number, 2);
 }
 
-class ElectricEngine implements Engine
-{
-    public function start(): string
-    {
-        return "Starting the electric engine...";
-    }
-}
-
-abstract class Car
-{
-    protected string $make;
-    protected Engine $engine;
-
-    public function __construct(string $make, Engine $engine)
-    {
-        $this->make = $make;
-        $this->engine = $engine;
-    }
-
-    abstract public function drive(): string;
-
-    public function start(): string
-    {
-        return $this->engine->start();
-    }
-}
-
-// 継承
-// 継承により、クラス（サブクラス）は他のクラス（親クラス）のプロパティとメソッドを継承することができます。
-
-class GasCar extends Car
-{
-    public function __construct(string $make)
-    {
-        parent::__construct($make, new GasolineEngine());
-    }
-
-    public function drive(): string
-    {
-        return "Driving the gas car...";
-    }
-}
-
-class ElectricCar extends Car
-{
-    public function __construct(string $make)
-    {
-        parent::__construct($make, new ElectricEngine());
-    }
-
-    public function drive(): string
-    {
-        return "Driving the electric car...";
-    }
-}
-
-
-$gasCar = new GasCar('Toyota');
-$electricCar = new ElectricCar('Tesla');
-
-echo $gasCar->drive(); // Output: Driving the gas car...
-echo $gasCar->start(); // Output: Starting the gasoline engine...
-
-echo $electricCar->drive(); // Output: Driving the electric car...
-echo $electricCar->start(); // Output: Starting the electric engine...
+$numbers = [1, 2, 3, 4];
+$squaredNumbers = processNumbers($numbers, 'squareNumber');
+print_r($squaredNumbers); // Output: Array ( [0] => 1 [1] => 4 [2] => 9 [3] => 16 )
