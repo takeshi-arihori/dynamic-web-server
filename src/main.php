@@ -13,16 +13,13 @@ $planet = isset($_GET['planet']) ? $_GET['planet'] : 'Earth';
     <p>This is a simple "Hello, <?php echo htmlspecialchars($planet, ENT_QUOTES, 'UTF-8'); ?>!" HTML page.</p>
     <?php
     // リクエストヘッダーを取得
-    $headers = getallheaders();
+    header('Content-Type: application/json');
 
-    echo json_encode($headers);
+    $filename = 'request_headers.json';
+    header(sprintf('Content-Disposition: attachment; filename="%s"', $filename));
 
-    // // JSON形式で出力
-    // header('Content-Type: application/json');
-    // $filename = 'request_headers.json';
-    // header(sprintf('Content-Disposition: attachment; filename="%s"', $filename));
-    // echo json_encode($headers, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    // exit; // ここで終了してHTMLのフッターを出力しない
+    echo json_encode(getallheaders() ?? '{}');
+
     ?>
 
     <footer>
