@@ -5,65 +5,34 @@ interface Engine
     public function start(): string;
 }
 
-abstract class AbstractVehicle
+class GasolineEngine implements Engine
 {
-    protected string $make;
-
-    public function __construct(string $make)
-    {
-        $this->make = $make;
-    }
-
-    abstract public function drive(): string;
-}
-
-class Car extends AbstractVehicle implements Engine
-{
-    public function __construct(string $make)
-    {
-        parent::__construct($make);
-    }
-
-    public function drive(): string
-    {
-        return "Driving the car...";
-    }
-
     public function start(): string
     {
-        return "Starting the cars engine...";
+        return "Starting the gasoline engine...";
     }
 }
 
-class Motorcycle extends AbstractVehicle implements Engine
+class ElectricEngine implements Engine
 {
-    public function __construct(string $make)
-    {
-        parent::__construct($make);
-    }
-
-    public function drive(): string
-    {
-        return "Driving the motorcycle...";
-    }
-
     public function start(): string
     {
-        return "Starting the motorcycle's engine...";
+        return "Starting the electric engine...";
     }
 }
 
+// ポリモーフィズム
+// 異なるクラスのオブジェクトを共通の基底クラスのオブジェクトとして扱うことができます。これにより、コードの柔軟性が確保され、メソッドのオーバーライドが可能になります。
+function startEngine(Engine $engine): string
+{
+    return $engine->start();
+}
 
-$car = new Car('Toyota');
-$motorcycle = new Motorcycle('Harley');
+$gasolineEngine = new GasolineEngine();
+$electricEngine = new ElectricEngine();
 
-
-echo $car->drive(); // Output: Driving the car...
 echo '<br>';
-echo $car->start(); // Output: Starting the car's engine...
+echo startEngine($gasolineEngine); // Output: Starting the gasoline engine...
 echo '<br>';
 echo '<br>';
-echo $motorcycle->drive(); // Output: Driving the motorcycle...
-echo '<br>';
-echo $motorcycle->start(); // Output: Starting the motorcycle's engine...
-echo '<br>';
+echo startEngine($electricEngine); // Output: Starting the electric engine...
